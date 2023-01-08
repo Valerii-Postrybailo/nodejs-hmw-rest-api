@@ -14,8 +14,8 @@
     "express": "4.17.1",
     "fs": "^0.0.1-security",
     "morgan": "1.10.0",
-    "nanoid": "^4.0.0",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "eslint": "7.19.0",
