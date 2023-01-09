@@ -1,9 +1,12 @@
-const fs = require('fs/promises')
-const path = require('path')
+const fs = require('fs/promises');
+const path = require('path');
 
-const {v4} = require('uuid')
+const {v4} = require('uuid');
+
 
 const contactsPath = path.join(__dirname, './contacts.json')
+
+///////////////////////////////////////////////////////////
 
 const listContacts = async () => {
   try {
@@ -14,6 +17,8 @@ const listContacts = async () => {
     console.log(err.message);
   }
 }
+
+///////////////////////////////////////////////////////////
 
 const getContactById = async (contactId) => {
   try {
@@ -30,6 +35,8 @@ const getContactById = async (contactId) => {
     console.log(err.message);
   }
 }
+
+///////////////////////////////////////////////////////////
 
 const removeContact = async (contactId) => {
   try{
@@ -48,6 +55,8 @@ const removeContact = async (contactId) => {
       console.log(err.message)}
 }
 
+//////////////////////////////////////////////////////////
+
 const addContact = async (body) => {
   try{
     const data = await fs.readFile(contactsPath, "utf-8");
@@ -55,15 +64,16 @@ const addContact = async (body) => {
 
     const {name, email, phone} = body
     const newContacts = {id : v4(), name, email, phone}
-    console.log(newContacts)
     parsedContacts.push(newContacts)
     fs.writeFile(contactsPath, JSON.stringify(parsedContacts))
 
-    return parsedContacts
+    return newContacts
 
     } catch(err){
       console.log(err.message)}
 }
+
+//////////////////////////////////////////////////////////
 
 const updateContact = async (contactId, body) => {
   try {
@@ -75,13 +85,15 @@ const updateContact = async (contactId, body) => {
     contact.name = name;
     contact.email = email;
     contact.phone = phone;
-    
+
+    const [] = parsedData.splice(contactId - 1 , 1, contact)
+    fs.writeFile(contactsPath, JSON.stringify(parsedData))
+
     return contact
 
   } catch (err) {
     console.log(err.message);
   }
-
 }
 
 module.exports = {
