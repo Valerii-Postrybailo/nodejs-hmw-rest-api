@@ -8,7 +8,7 @@ const contactsListOperations = require('../../models/contacts.js')
 
 ////////////////////////////////////////////////////////////////
 
-router.get('/', async (req, res, next) => {
+router.get('/', async (req, res) => {
   res.json({ 
     status: 'success',
     code: 200,
@@ -20,7 +20,7 @@ router.get('/', async (req, res, next) => {
 
 ///////////////////////////////////////////////////////////////
 
-router.get('/:contactId', async (req, res, next) => {
+router.get('/:contactId', async (req, res) => {
   const contacts =  await contactsListOperations.getContactById(req.params.contactId)
   if(contacts){
     res.json({ 
@@ -40,7 +40,7 @@ router.get('/:contactId', async (req, res, next) => {
 
 /////////////////////////////////////////////////////////
 
-router.post('/', async (req, res, next) => {
+router.post('/', async (req, res) => {
   const {name, email, phone} = req.body
 
   if (name && email && phone){
@@ -84,7 +84,7 @@ router.post('/', async (req, res, next) => {
 
 /////////////////////////////////////////////////////////////
 
-router.delete('/:contactId', async (req, res, next) => {
+router.delete('/:contactId', async (req, res) => {
 
   const contacts =  await contactsListOperations.removeContact(req.params.contactId)
 
@@ -109,7 +109,7 @@ router.delete('/:contactId', async (req, res, next) => {
 
 ////////////////////////////////////////////////////////
 
-router.put('/:contactId', async (req, res, next) => {
+router.put('/:contactId', async (req, res) => {
   const {name, email, phone} = req.body;
 
   if(!name || !email || !phone){
