@@ -1,25 +1,20 @@
 const express = require('express')
 
+const {ctrlWrapper} = require("../../middlewares")
+const {contacts: ctrl} = require('../../controllers')
+
 const router = express.Router()
 
-router.get('/', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+router.get('/', ctrlWrapper(ctrl.getAll))
 
-router.get('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+// router.get('/tasks/:id', ctrlTask.getById)
 
-router.post('/', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+// router.post('/tasks', ctrlTask.create)
 
-router.delete('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+// router.put('/tasks/:id', ctrlTask.update)
 
-router.put('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+// router.patch('/tasks/:id/status', ctrlTask.updateStatus)
+
+// router.delete('/tasks/:id', ctrlTask.remove)
 
 module.exports = router
