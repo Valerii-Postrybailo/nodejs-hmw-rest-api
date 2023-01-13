@@ -1,5 +1,4 @@
 const {model, Schema} = require("mongoose");
-const Joi = require('joi');
 
 const contactSchema = Schema({
   name: {
