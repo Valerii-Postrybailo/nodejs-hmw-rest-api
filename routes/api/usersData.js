@@ -7,5 +7,4 @@ const router = express.Router();
 
 router.get('/current', auth, ctrlWrapper(ctrl.getCurrent));
 
-
 module.exports = router;

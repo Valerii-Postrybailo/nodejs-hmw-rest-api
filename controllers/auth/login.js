@@ -22,7 +22,7 @@ const login = async(req,res) => {
       email: Joi.string().required()
     })
     
-    const {error, value} = joiShema.validate(userData);
+    const {error} = joiShema.validate(userData);
 
     if(error){
       console.log(error.message)
@@ -59,6 +59,8 @@ const login = async(req,res) => {
         }
   
       const token = jwt.sign(payload, SECRET_KEY, {expiresIn: "1h"});
+      await User.findByIdAndUpdate(user._id, {token});
+
       res.status(200).json({
         status: 'success',
         code: 200,

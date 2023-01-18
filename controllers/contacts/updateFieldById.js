@@ -47,8 +47,4 @@ const updateFieldById = async (req, res) => {
   }
 }
 
-
-
-
-
 module.exports = updateFieldById;
