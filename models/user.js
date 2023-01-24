@@ -1,6 +1,4 @@
-const {model, Schema, SchemaTypes} = require("mongoose");
-// var SchemaTypes = mongoose.Schema
-// const Joi = require("joi");
+const {model, Schema} = require("mongoose");
 
 const userShema = Schema({
   password: {
@@ -18,8 +16,9 @@ const userShema = Schema({
     default: "starter"
   },
 
-
   token: String,
+
+  avatarURL: String,
 
 },{versionKey: false, timestamps:true});
 

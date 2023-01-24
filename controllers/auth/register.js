@@ -1,6 +1,7 @@
 const {User} = require("../../models");
 const Joi = require('joi');
-const bcrypt =require("bcryptjs");
+const bcrypt = require("bcryptjs");
+const gravatar = require("gravatar");
 
 const register = async(req,res) => {
   console.log("register worked")
@@ -22,13 +23,17 @@ const register = async(req,res) => {
     })
   } else {
     const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
-    const result = await User.create({email, password: hashPassword});
-    
+    const avatarURL = gravatar.url(email).toString();
+    console.log("avatarURL", avatarURL)
+
+    const result = await User.create({ email, password: hashPassword, avatarURL });
+    console.log(result)
     const joiShema = Joi.object({
       _id: Joi.required(),
       password: Joi.string().min(6).required(),
       email: Joi.string().required(),
       subscription: Joi.string().required(),
+      avatarURL: Joi.string().required(),
 
       createdAt: Joi.date(),
       updatedAt: Joi.date()
@@ -48,7 +53,8 @@ const register = async(req,res) => {
       user:{
         "email" : result.email,
         "password": result.password,
-        "subscription": result.subscription
+        "subscription": result.subscription,
+        "avatar" : result.avatarURL
       }
   })} else {
     const errorMsg = error.message

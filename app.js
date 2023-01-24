@@ -1,42 +1,48 @@
-const express = require('express')
-const logger = require('morgan')
-const cors = require('cors')
-const multer = require('multer')
-
+const express = require('express');
+const logger = require('morgan');
+const cors = require('cors');
 
 const authRouter = require('./routes/api/user');
 const usersRouter = require('./routes/api/usersData');
-const contactsRouter = require('./routes/api/contacts')
+const contactsRouter = require('./routes/api/contacts');
 
-const app = express()
+const app = express();
 
-const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short'
+const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 
-app.use(logger(formatsLogger))
-app.use(cors())
-app.use(express.json())
+app.use(logger(formatsLogger));
+app.use(cors());
+app.use(express.json());
+app.use(express.static('public'));
+
 
 app.use('/api/users', usersRouter);
 app.use('/api/users', authRouter);
 
-const tempDir = path.join(__dirname, "temp");
+// const tempDir = path.join(__dirname, "temp");
+// const productsDir = path.join(__dirname, "public", "avatars")
 
-const multerConfig = multer.diskStorage({
-  destination: (req, file, cb)=>{
-    cb(null,tempDir) 
-  }, 
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
-  },
-  limits:{
-    fileSize: 2048
-  }
-});
 
-const upload = multer({
-  storage: multerConfig
-});
 
+// app.post("/api/contacts", upload, async (req, res) => {
+//   const { path: tempUpload, originalname } = req.file;
+//   const resultUpload = path.json(productsDir, originalname);
+
+//   try {
+//     await fs.rename(tempUpload, resultUpload);
+//     const image = path.join( "avatars", originalname);
+
+//     const newContact = {
+//       name: req.body.name,
+//       id: "v4()",
+//       image
+//     };
+//     productsDir.push(newContact);
+//     res.status(201).json(newContact);
+//   } catch (error){
+//     await fs.unlink(tempUpload);
+//   }
+// });
 
 app.use('/api/users', usersRouter);
 app.use('/api/users', authRouter);
