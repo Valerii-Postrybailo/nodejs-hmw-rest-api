@@ -5,10 +5,12 @@ const jwt = require('jsonwebtoken')
 
 const {SECRET_KEY} = process.env;
 
-const login = async(req,res) => {
+const login = async (req, res) => {
+  console.log(req.body)
   const {email, password} = req.body;
   const userData = req.body;
-  const user = await User.findOne({email});
+  const user = await User.findOne({ email });
+  console.log("user",user)
 
   if(!email || !password){
     res.status(400).json({
@@ -44,8 +46,11 @@ const login = async(req,res) => {
     }
     
     if(user && !error){
-      
-      const passCompare = bcrypt.compareSync(password, user.password);
+      console.log("password", password) // 12345678
+      console.log("user-password", user.password) // 12345678 
+      console.log( password === user.password) // true
+      const passCompare = bcrypt.compareSync(password, user.password); // false
+      console.log("passCompare", passCompare)
       if(!passCompare){
         res.status(401).json({
           "status": 401,
