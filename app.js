@@ -19,31 +19,6 @@ app.use(express.static('public'));
 app.use('/api/users', usersRouter);
 app.use('/api/users', authRouter);
 
-// const tempDir = path.join(__dirname, "temp");
-// const productsDir = path.join(__dirname, "public", "avatars")
-
-
-
-// app.post("/api/contacts", upload, async (req, res) => {
-//   const { path: tempUpload, originalname } = req.file;
-//   const resultUpload = path.json(productsDir, originalname);
-
-//   try {
-//     await fs.rename(tempUpload, resultUpload);
-//     const image = path.join( "avatars", originalname);
-
-//     const newContact = {
-//       name: req.body.name,
-//       id: "v4()",
-//       image
-//     };
-//     productsDir.push(newContact);
-//     res.status(201).json(newContact);
-//   } catch (error){
-//     await fs.unlink(tempUpload);
-//   }
-// });
-
 app.use('/api/users', usersRouter);
 app.use('/api/users', authRouter);
 app.use('/api/contacts', contactsRouter)

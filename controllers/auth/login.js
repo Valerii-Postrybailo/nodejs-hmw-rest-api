@@ -6,12 +6,14 @@ const jwt = require('jsonwebtoken')
 const {SECRET_KEY} = process.env;
 
 const login = async (req, res) => {
-  console.log(req.body)
-  const {email, password} = req.body;
-  const userData = req.body;
-  const user = await User.findOne({ email });
-  console.log("user",user)
 
+  const { email, password } = req.body;
+  console.log("res", res.email)
+  const userData = req.body;
+  console.log("email", email)
+
+  const user = await User.findOne({ email });
+  console.log("user email", user.email)
   if(!email || !password){
     res.status(400).json({
       code: 404,
@@ -46,10 +48,10 @@ const login = async (req, res) => {
     }
     
     if(user && !error){
-      console.log("password", password) // 12345678
-      console.log("user-password", user.password) // 12345678 
-      console.log( password === user.password) // true
-      const passCompare = bcrypt.compareSync(password, user.password); // false
+
+      const passCompare = bcrypt.compareSync(password, user.password);
+      console.log("password", password)
+      console.log("user_pass", user.password)
       console.log("passCompare", passCompare)
       if(!passCompare){
         res.status(401).json({
@@ -62,7 +64,9 @@ const login = async (req, res) => {
       const payload = {
           id: user._id
         }
-  
+        
+        console.log("payload", payload)
+        console.log("key", SECRET_KEY)
       const token = jwt.sign(payload, SECRET_KEY, {expiresIn: "1h"});
       await User.findByIdAndUpdate(user._id, {token});
 
