@@ -1,20 +1,21 @@
 const {User} = require("../../models");
 const Joi = require('joi');
 const bcrypt =require("bcryptjs");
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+// const { use } = require("../../routes/api/user");
 
 const {SECRET_KEY} = process.env;
 
 const login = async (req, res) => {
 
   const { email, password } = req.body;
-  console.log("res", res.email)
+  // console.log("res", res.email)
   const userData = req.body;
-  console.log("email", email)
+  // console.log("email", email)
 
   const user = await User.findOne({ email });
-  console.log("user email", user.email)
-  if(!email || !password){
+  // console.log("user email", user.email)
+  if(!email ||  !password){
     res.status(400).json({
       code: 404,
       message:"missing fields",
@@ -29,7 +30,7 @@ const login = async (req, res) => {
     const {error} = joiShema.validate(userData);
 
     if(error){
-      console.log(error.message)
+      // console.log(error.message)
         const errorMsg = error.message
 
         res.status(400).json({
@@ -39,20 +40,17 @@ const login = async (req, res) => {
         });
       }
 
-    if(!user && !error){
+    if(!user || !user.verify && !error){
 
       res.status(401).json({
         "status": 401,
-        "message": "Email or password is wrong"
+        "message": "Email is wrong or not verify, or password is wrong"
       })
     }
     
     if(user && !error){
 
       const passCompare = bcrypt.compareSync(password, user.password);
-      console.log("password", password)
-      console.log("user_pass", user.password)
-      console.log("passCompare", passCompare)
       if(!passCompare){
         res.status(401).json({
           "status": 401,
@@ -65,8 +63,6 @@ const login = async (req, res) => {
           id: user._id
         }
         
-        console.log("payload", payload)
-        console.log("key", SECRET_KEY)
       const token = jwt.sign(payload, SECRET_KEY, {expiresIn: "1h"});
       await User.findByIdAndUpdate(user._id, {token});
 
